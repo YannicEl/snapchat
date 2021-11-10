@@ -22,7 +22,7 @@ jobs:
 
       - run: cd backend/; npm i
 
-      - run: cd functions/; npm run build
+      - run: cd backend/; npm run build
 
       - name: Setup Firebase
         uses: w9jds/firebase-action@v2.0.0
