@@ -1,0 +1,31 @@
+name: Deploy Backend DEV
+
+on:
+  push:
+    branches: [dev]
+    paths-ignore:
+      - 'frontend/**'
+
+jobs:
+  deploy_backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - run: cd backend/; npm i
+
+      - run: cd functions/; npm run build
+
+      - name: Setup Firebase
+        uses: w9jds/firebase-action@v2.0.0
+        with:
+          args: deploy --only functions --project spitter-dev
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
