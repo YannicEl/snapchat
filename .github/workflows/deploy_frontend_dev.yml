@@ -22,4 +22,6 @@ jobs:
 
       - run: cd frontend/; npm i
 
-      - run: cd frontend/; CF_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} CF_API_KEY=${{ secrets.CF_API_TOKEN }} npm run deploy:worker
+      - run: CF_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} CF_API_KEY=${{ secrets.CF_API_TOKEN }}
+
+      - run: cd frontend/;  npm run deploy:worker
