@@ -11,5 +11,5 @@ bucket = ".output/public"
 entry-point = ".output"
 
 [build]
-command = "npm run build:worker"
+command = ""
 upload.format = "service-worker"
