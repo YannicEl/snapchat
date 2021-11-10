@@ -2,7 +2,7 @@ name: Deploy Backend PROD
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths-ignore:
       - 'frontend/**'
 
