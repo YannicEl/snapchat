@@ -1,0 +1,15 @@
+type = "javascript"
+name = "playground"
+account_id = "c803c5d87e5620c5617743daaccd921d"
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2021-11-10"
+
+[site]
+bucket = ".output/public"
+entry-point = ".output"
+
+[build]
+command = "npm run build:worker"
+upload.format = "service-worker"

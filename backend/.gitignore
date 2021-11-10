@@ -1,0 +1,16 @@
+# Compiled JavaScript files
+**/*.js
+**/*.js.map
+!createTypings.js
+
+# Except the ESLint config file
+!.eslintrc.js
+
+# Node.js dependency directory
+node_modules/
+
+# functions build
+lib/
+
+# IDEA FOLDER YEEEET
+.idea/

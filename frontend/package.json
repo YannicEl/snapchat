@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "serve": "nuxt dev",
+    "build": "nuxt build",
+    "serve:worker": "miniflare .output/server/index.mjs --site .output/public",
+    "build:worker": "cross-env NITRO_PRESET=cloudflare nuxt build",
+    "deploy:worker": "wrangler publish"
+  },
+  "devDependencies": {
+    "@cloudflare/wrangler": "^1.19.5",
+    "cross-env": "^7.0.3",
+    "miniflare": "^1.4.1",
+    "nuxt-windicss": "^2.0.12",
+    "nuxt3": "latest",
+    "prettier": "^2.4.1"
+  },
+  "dependencies": {
+    "@vueuse/core": "^6.8.0"
+  }
+}
