@@ -3,11 +3,12 @@ import { Document } from './Documents';
 
 export class City extends Document {
   constructor(
+    id: string,
     public name: string,
     public state: string,
     public country: string
   ) {
-    super('cities', name);
+    super('cities', id);
   }
 
   updateDoc(data: UpdateData<City>) {
@@ -15,7 +16,7 @@ export class City extends Document {
   }
 
   toString = (): string => {
-    return `${this.name}, ${this.state} ${this.country}`;
+    return `${this.id}: ${this.name}, ${this.state} ${this.country}`;
   };
 }
 
@@ -29,6 +30,6 @@ export const cityConverter: FirestoreDataConverter<City> = {
   },
   fromFirestore: (snapshot, options) => {
     const { name, state, country } = snapshot.data(options);
-    return new City(name, state, country);
+    return new City(snapshot.id, name, state, country);
   },
 };

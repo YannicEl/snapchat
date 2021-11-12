@@ -1,9 +1,17 @@
 <template>
   <h2 class="text-lg font-bold">Test</h2>
 
+  <div>doc</div>
   <pre>
-    {{ docData }}
+    {{ doc }}
   </pre>
+
+  <div>list</div>
+  <div v-for="doc in docs">
+    <pre>
+      {{ doc }}
+    </pre>
+  </div>
 
   <button @click="addCity">Add</button>
   <button @click="deleteDoc">Delete</button>
@@ -13,23 +21,27 @@
 <script setup lang="ts">
 import { City, cityConverter } from '~~/types/City';
 
-const { add, snapshotDoc, docData } = useFirestore<City>(
-  'cities',
-  cityConverter
-);
+const { add, getRef, listRef } = useFirestore<City>('cities', cityConverter);
 
-snapshotDoc('Wilfersdorf');
+const doc = getRef('Wilfersdorf');
+const docs = listRef();
 
-const addCity = () => {
-  const city = new City('Wilfersdorf', 'Niederösterreich', 'AT');
-  add(city);
+const addCity = async () => {
+  const name = 'Wilfersdorf';
+  const country = 'AT';
+  const state = 'Niederösterreich';
+
+  const ref = await add<City>({ name, country, state });
+  const city = await getRef(ref.id);
+
+  watch(city, (data) => console.log(data?.toString()));
 };
 
 const deleteDoc = () => {
-  docData.value?.delete();
+  doc.value?.delete();
 };
 
 const updateDoc = async () => {
-  await docData.value?.updateDoc({ country: Date.now().toFixed(0) });
+  await doc.value?.updateDoc({ country: Date.now().toFixed(0) });
 };
 </script>

@@ -8,10 +8,10 @@ import {
 } from 'firebase/firestore';
 
 export abstract class Document {
-  private doc: DocumentReference;
+  readonly doc: DocumentReference;
 
-  constructor(private path: string, public id: string) {
-    this.doc = _doc(getFirestore(), this.path, this.id);
+  constructor(readonly path: string, readonly id: string) {
+    this.doc = _doc(getFirestore(), this.path, id);
   }
 
   delete = async () => {

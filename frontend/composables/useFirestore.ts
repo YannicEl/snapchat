@@ -1,15 +1,16 @@
-import { Unsubscribe } from '@firebase/util';
 import {
   getFirestore,
   collection as _collection,
   doc as _doc,
   getDoc as _getDoc,
-  setDoc as _setDoc,
+  getDocs,
+  addDoc as _addDoc,
   onSnapshot,
   FirestoreDataConverter,
   DocumentReference,
 } from 'firebase/firestore';
 import { Document } from '../types/Documents';
+import { Ref } from 'vue';
 
 export function useFirestore<T extends Document>(
   path: string,
@@ -17,39 +18,45 @@ export function useFirestore<T extends Document>(
 ) {
   const collection = _collection(getFirestore(), path).withConverter(converter);
 
-  const docData = ref<T>();
-  const collectionData = ref<T[]>();
-
-  const add = async (obj: T): Promise<void> => {
-    return _setDoc(getCityDoc(obj.id), obj);
+  const add = <X>(
+    body: Partial<Omit<X, 'id'>>
+  ): Promise<DocumentReference<T>> => {
+    return _addDoc<T>(collection, { ...body } as any);
   };
 
   const get = async (id: string): Promise<T | undefined> => {
-    return await _getDoc(getCityDoc(id)).then((e) => e.data());
+    return _getDoc(getDoc(id)).then((e) => e.data());
   };
 
-  const snapshotDoc = (id: string): Unsubscribe => {
-    return onSnapshot(getCityDoc(id), (doc) => {
+  const getRef = (id: string): Ref<T | undefined> => {
+    const docData = ref<T>();
+    onSnapshot(getDoc(id), (doc) => {
       docData.value = doc.data();
     });
+    return docData;
   };
 
-  const snapshotCollection = (): Unsubscribe => {
-    return onSnapshot(collection, (docs) => {
+  const list = (): Promise<T[]> => {
+    return getDocs(collection).then((e) => e.docs.map((e) => e.data()));
+  };
+
+  const listRef = (): Ref<T[] | undefined> => {
+    const collectionData = ref<T[]>();
+    onSnapshot(collection, (docs) => {
       collectionData.value = docs.docs.map((e) => e.data());
     });
+    return collectionData;
   };
 
-  const getCityDoc = (id: string): DocumentReference<T> => {
+  const getDoc = (id: string): DocumentReference<T> => {
     return _doc(collection, id);
   };
 
   return {
     add,
     get,
-    snapshotDoc,
-    docData,
-    snapshotCollection,
-    collectionData,
+    getRef,
+    list,
+    listRef,
   };
 }
