@@ -1,5 +1,5 @@
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { logger } from 'firebase-functions/v1';
+import { logger } from 'firebase-functions';
 
 let lastCalled: number = 0;
 
