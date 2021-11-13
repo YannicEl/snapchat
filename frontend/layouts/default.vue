@@ -3,7 +3,7 @@
     <div
       class="
         w-full
-        max-w-screen-xl
+        max-w-screen-2xl
         bg-white
         rounded-2xl
         overflow-hidden

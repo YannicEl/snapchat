@@ -12,6 +12,7 @@
     "
   >
     <div class="flex-1">
+      <h1>Settings</h1>
       <div>turn of notifiactions</div>
       <div>Install</div>
       <div>Aggressive Preloading</div>
