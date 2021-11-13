@@ -32,6 +32,9 @@
 
 <script setup lang="ts">
 import { onKeyUp } from '@vueuse/core';
+import { canvasToBlob } from '~~/helpers/canvas';
+
+const { uploadImg } = useFirestorage();
 
 const showVideo = ref(true);
 const showCanvas = ref(false);
@@ -49,7 +52,7 @@ watch(videoElm, async (data) => {
   }
 });
 
-const capture = () => {
+const capture = async () => {
   const { value: camera } = videoElm;
   const { value: canvas } = canvasElm;
 
@@ -75,6 +78,13 @@ const capture = () => {
   }
 
   ctx.drawImage(camera, 0, 0, canvas.width, canvas.height);
+
+  // upload
+  // const blob = await canvasToBlob(canvas);
+
+  // if (blob) {
+  //   await uploadImg(blob);
+  // }
 
   showVideo.value = false;
   showCanvas.value = true;
