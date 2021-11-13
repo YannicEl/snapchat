@@ -16,9 +16,10 @@
         <logo-header></logo-header>
 
         <div class="h-full relative">
-          <transition name="slide" appear>
+          <transition name="slide">
             <settings v-show="isOpen"></settings>
           </transition>
+
           <slot name="left" />
         </div>
       </div>
@@ -35,20 +36,27 @@ const { isOpen } = useSidenav();
 </script>
 
 <style lang="scss">
-.slide-enter,
-.slide-leave-to {
-  // @apply left-0;
-  @apply left-[-28rem];
+.slide-enter-active {
+  animation: ease-in-out slideIn 300ms;
 }
-
-.slide-leave,
-.slide-enter-to {
-  @apply left-0;
-  // @apply left-[-28rem];
-}
-
-.slide-enter-active,
 .slide-leave-active {
-  @apply transition-all duration-400;
+  animation: ease-in-out slideOut 300ms;
+}
+
+@keyframes slideIn {
+  from {
+    left: -28rem;
+  }
+  to {
+    left: 0rem;
+  }
+}
+@keyframes slideOut {
+  from {
+    left: 0;
+  }
+  to {
+    left: -28rem;
+  }
 }
 </style>

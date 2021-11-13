@@ -16,12 +16,10 @@
       <span class="bg-gray-900 rounded-full w-7 h-1"></span>
     </button>
 
-    {{ isOpen }}
-
     <div class="text-xl font-bold text-gray-900 tracking-0.5em">SPITTER</div>
   </header>
 </template>
 
 <script setup lange="ts">
-const { toggle, isOpen } = useSidenav();
+const { toggle } = useSidenav();
 </script>
