@@ -9,6 +9,8 @@ import {
   FirestoreDataConverter,
   DocumentReference,
   serverTimestamp,
+  query,
+  QueryConstraint,
 } from 'firebase/firestore';
 import { Document } from '../types/Documents';
 import { Ref } from 'vue';
@@ -19,9 +21,7 @@ export const useFirestore = <T extends Document>(
 ) => {
   const collection = _collection(getFirestore(), path).withConverter(converter);
 
-  const add = <X>(
-    body: Partial<Omit<X, 'id'>>
-  ): Promise<DocumentReference<T>> => {
+  const add = (body: Partial<Omit<T, 'id'>>): Promise<DocumentReference<T>> => {
     return _addDoc<T>(collection, {
       ...body,
       createdAt: serverTimestamp(),
@@ -45,9 +45,12 @@ export const useFirestore = <T extends Document>(
     return getDocs(collection).then((e) => e.docs.map((e) => e.data()));
   };
 
-  const listRef = (): Ref<T[] | undefined> => {
+  const listRef = (
+    constraints: QueryConstraint[] = []
+  ): Ref<T[] | undefined> => {
     const collectionData = ref<T[]>();
-    onSnapshot(collection, (docs) => {
+    const q = query(collection, ...constraints);
+    onSnapshot(q, (docs) => {
       collectionData.value = docs.docs.map((e) => e.data());
     });
     return collectionData;

@@ -1,5 +1,12 @@
 export const useSidenav = () => {
-  const isOpen = useState('isOpen', () => useRoute().query?.sidenav === 'true');
+  const route = useRoute();
+
+  const isOpen = useState('isOpen', () => route.query?.sidenav === 'true');
+
+  watch(
+    () => route.query?.sidenav,
+    async (data) => (isOpen.value = !!data)
+  );
 
   const router = useRouter();
 

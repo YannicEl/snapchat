@@ -4,7 +4,6 @@
       class="
         w-full
         max-w-screen-xl
-        h-[95vh]
         bg-white
         rounded-2xl
         overflow-hidden
@@ -12,11 +11,21 @@
         grid grid-cols-7
       "
     >
-      <div class="flex flex-col col-span-2 border-r border-gray-200">
+      <div class="flex flex-col h-95vh col-span-2 border-r border-gray-200">
         <logo-header></logo-header>
 
-        <div class="h-full relative">
-          <transition name="slide">
+        <div
+          class="relative flex-1"
+          :class="{
+            'overflow-auto': scrollable,
+            'overflow-hidden': !scrollable,
+          }"
+        >
+          <transition
+            name="slide"
+            v-on:after-enter="scrollable = false"
+            v-on:before-leave="scrollable = true"
+          >
             <settings v-show="isOpen"></settings>
           </transition>
 
@@ -24,7 +33,7 @@
         </div>
       </div>
 
-      <div class="col-span-5">
+      <div class="col-span-5 h-95vh">
         <slot name="right" />
       </div>
     </div>
@@ -33,12 +42,14 @@
 
 <script setup lang="ts">
 const { isOpen } = useSidenav();
+const scrollable = ref(true);
 </script>
 
 <style lang="scss">
 .slide-enter-active {
   animation: ease-in-out slideIn 300ms;
 }
+
 .slide-leave-active {
   animation: ease-in-out slideOut 300ms;
 }
