@@ -1,11 +1,19 @@
 <template>
-  <h1 class="text-2xl font-bold">Index</h1>
+  <NuxtLayout>
+    <template #left>
+      <msg-list-view></msg-list-view>
+    </template>
 
-  <button @click="show = !show">hide</button>
-
-  <test v-if="show"></test>
+    <template #right>
+      <viewfinder></viewfinder>
+    </template>
+  </NuxtLayout>
 </template>
 
-<script setup lang="ts">
-const show = ref(true);
+<script setup lang="ts"></script>
+
+<script lang="ts">
+export default {
+  layout: false,
+};
 </script>

@@ -1,7 +1,7 @@
 import { defineNuxtConfig } from 'nuxt3';
 
 export default defineNuxtConfig({
-  buildModules: ['nuxt-windicss', '@vueuse/core/nuxt'],
+  buildModules: ['nuxt-windicss', '@vueuse/core/nuxt', '@nuxtjs/google-fonts'],
 
   publicRuntimeConfig: {
     firebaseConfig: {
@@ -13,4 +13,15 @@ export default defineNuxtConfig({
       appId: process.env.FIREBASE_APP_ID,
     },
   },
+
+  googleFonts: {
+    // download: true,
+    // base64: true,
+    display: 'swap',
+    families: {
+      Montserrat: true,
+    },
+  },
+
+  css: ['~/main.scss'],
 });

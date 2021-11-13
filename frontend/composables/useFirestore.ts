@@ -8,20 +8,25 @@ import {
   onSnapshot,
   FirestoreDataConverter,
   DocumentReference,
+  serverTimestamp,
 } from 'firebase/firestore';
 import { Document } from '../types/Documents';
 import { Ref } from 'vue';
 
-export function useFirestore<T extends Document>(
+export const useFirestore = <T extends Document>(
   path: string,
   converter: FirestoreDataConverter<T>
-) {
+) => {
   const collection = _collection(getFirestore(), path).withConverter(converter);
 
   const add = <X>(
     body: Partial<Omit<X, 'id'>>
   ): Promise<DocumentReference<T>> => {
-    return _addDoc<T>(collection, { ...body } as any);
+    return _addDoc<T>(collection, {
+      ...body,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    } as any);
   };
 
   const get = async (id: string): Promise<T | undefined> => {
@@ -59,4 +64,4 @@ export function useFirestore<T extends Document>(
     list,
     listRef,
   };
-}
+};
