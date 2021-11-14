@@ -80,11 +80,11 @@ const capture = async () => {
   ctx.drawImage(camera, 0, 0, canvas.width, canvas.height);
 
   // upload
-  // const blob = await canvasToBlob(canvas);
+  const blob = await canvasToBlob(canvas);
 
-  // if (blob) {
-  //   await uploadImg(blob);
-  // }
+  if (blob) {
+    uploadImg(blob);
+  }
 
   showVideo.value = false;
   showCanvas.value = true;
