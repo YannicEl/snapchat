@@ -9,9 +9,11 @@ on:
       - 'storage.rules'
 
 jobs:
-  deploy_backend:
+  deploy_rules:
     runs-on: ubuntu-latest
     steps:
+      - run: ls
+
       - name: Setup Firebase
         uses: w9jds/firebase-action@v2.0.0
         with:
