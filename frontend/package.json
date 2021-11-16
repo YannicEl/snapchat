@@ -5,7 +5,8 @@
     "build": "nuxt build",
     "serve:worker": "miniflare .output/server/index.mjs --site .output/public",
     "build:worker": "cross-env NITRO_PRESET=cloudflare nuxt build",
-    "deploy:worker": "wrangler publish"
+    "deploy:worker:dev": "wrangler publish --env dev",
+    "deploy:worker:prod": "wrangler publish --env prod"
   },
   "devDependencies": {
     "@cloudflare/wrangler": "^1.19.5",
@@ -18,7 +19,7 @@
     "sass": "^1.43.4"
   },
   "dependencies": {
-    "@vueuse/core": "^6.8.0",
-    "firebase": "^9.4.0"
+    "@vueuse/core": "^6.9.1",
+    "firebase": "^9.4.1"
   }
 }
