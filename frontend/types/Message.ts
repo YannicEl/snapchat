@@ -8,6 +8,11 @@ import { BaseDoc, Document } from './Documents';
 
 export interface MessageDoc extends BaseDoc {
   sender: string;
+  formats: {
+    png: boolean;
+    avif: boolean;
+    webp: boolean;
+  };
 }
 
 export class Message extends Document {

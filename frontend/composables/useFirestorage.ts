@@ -6,10 +6,10 @@ import {
 } from 'firebase/storage';
 
 export const useFirestorage = () => {
-  const uploadImg = async (blob: Blob): Promise<string> => {
+  const uploadImg = async (blob: Blob): Promise<void> => {
     const storage = getStorage();
 
-    const fileRef = ref(storage, 'public/mountains.jpg');
+    const fileRef = ref(storage, `uploads/${Date.now()}.png`);
 
     const uploadTask = uploadBytesResumable(fileRef, blob);
 
@@ -24,12 +24,7 @@ export const useFirestorage = () => {
           reject(err);
         },
         () => {
-          resolve(
-            getDownloadURL(uploadTask.snapshot.ref).then((e) => {
-              console.log(e);
-              return e;
-            })
-          );
+          resolve();
         }
       );
     });

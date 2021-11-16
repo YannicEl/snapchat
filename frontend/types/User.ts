@@ -6,8 +6,15 @@ import {
 } from 'firebase/firestore';
 import { BaseDoc, Document } from './Documents';
 
+export interface Settings {
+  aggressivePreloading?: boolean;
+  wildWasterlandMode?: boolean;
+  undoLimit?: number;
+}
+
 export interface UserDoc extends BaseDoc {
-  name: string;
+  username: string;
+  settings: Settings;
 }
 
 export class User extends Document {
@@ -15,7 +22,7 @@ export class User extends Document {
     id: string,
     createdAt: Date,
     updatedAt: Date,
-    public name: string
+    public username: string
   ) {
     super('users', id, createdAt, updatedAt);
   }
@@ -26,9 +33,9 @@ export class User extends Document {
 }
 
 export const userConverter: FirestoreDataConverter<User> = {
-  toFirestore: ({ name, createdAt, updatedAt }) => {
+  toFirestore: ({ username, createdAt, updatedAt }) => {
     return {
-      name,
+      username,
       createdAt,
       updatedAt,
     };
@@ -36,7 +43,12 @@ export const userConverter: FirestoreDataConverter<User> = {
   fromFirestore: (snapshot: QueryDocumentSnapshot<UserDoc>) => {
     const options: SnapshotOptions = { serverTimestamps: 'estimate' };
 
-    const { name, createdAt, updatedAt } = snapshot.data(options);
-    return new User(snapshot.id, createdAt.toDate(), updatedAt.toDate(), name);
+    const { username, createdAt, updatedAt } = snapshot.data(options);
+    return new User(
+      snapshot.id,
+      createdAt.toDate(),
+      updatedAt.toDate(),
+      username
+    );
   },
 };
