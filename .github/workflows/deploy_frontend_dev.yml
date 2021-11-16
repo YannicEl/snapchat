@@ -5,6 +5,7 @@ on:
     branches: [dev]
     paths-ignore:
       - 'backend/**'
+      - '.github/**'
 
 jobs:
   deploy_frontend:
