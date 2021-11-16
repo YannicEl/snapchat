@@ -3,9 +3,8 @@ name: Deploy Backend DEV
 on:
   push:
     branches: [dev]
-    paths-ignore:
-      - 'frontend/**'
-      - '.github/**'
+    paths:
+      - 'backend/**'
 
 jobs:
   deploy_backend:

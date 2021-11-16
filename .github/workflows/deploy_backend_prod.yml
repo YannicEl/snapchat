@@ -3,9 +3,8 @@ name: Deploy Backend PROD
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'frontend/**'
-      - '.github/**'
+    paths:
+      - 'backend/**'
 
 jobs:
   deploy_backend:
