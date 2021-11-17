@@ -19,7 +19,6 @@ export const uploadFile = async (
   buffer: Buffer,
   filePath: string
 ): Promise<void> => {
-  logger.info(filePath.split('/').at(-1));
   const file = await bucket.file(filePath);
   await file.save(buffer);
   await file.setMetadata({
