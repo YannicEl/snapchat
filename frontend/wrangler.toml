@@ -1,6 +1,6 @@
 type = "javascript"
 account_id = "c803c5d87e5620c5617743daaccd921d"
-compatibility_date = "2021-11-10"
+compatibility_date = "2021-11-17"
 
 [site]
 bucket = ".output/public"
@@ -18,5 +18,5 @@ zone_id = ""
 
 [env.prod]
 name = "spitter_prod"
-route = "spitter.app/*"
-zone_id = ""
+route = "spitter.app"
+zone_id = "9dc3b28e54aeaaf30a1329500fd19f3f"
