@@ -27,6 +27,6 @@ jobs:
       - name: Setup Firebase
         uses: w9jds/firebase-action@v2.0.0
         with:
-          args: deploy --only functions -f --project spitter-dev
+          args: deploy --only functions --project spitter-dev
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
