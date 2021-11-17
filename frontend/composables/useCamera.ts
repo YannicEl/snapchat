@@ -1,6 +1,10 @@
-import { Ref } from 'vue';
+let videoElm: HTMLVideoElement;
 
-export const useCamera = (videoElm: Ref<HTMLVideoElement | null>) => {
+export const useCamera = () => {
+  const setVideoElm = (elm: HTMLVideoElement) => {
+    videoElm = elm;
+  };
+
   const isSupported = () => {
     if (process.server) {
       return false;
@@ -22,7 +26,7 @@ export const useCamera = (videoElm: Ref<HTMLVideoElement | null>) => {
   };
 
   const stopVideoStream = () => {
-    const mediaProvider = videoElm?.value?.srcObject;
+    const mediaProvider = videoElm?.srcObject;
     if (!(mediaProvider instanceof MediaStream)) return;
 
     mediaProvider.getVideoTracks().forEach((track) => track.stop());
@@ -30,7 +34,9 @@ export const useCamera = (videoElm: Ref<HTMLVideoElement | null>) => {
 
   return {
     isSupported,
+    setVideoElm,
     getVideoStream,
     stopVideoStream,
+    videoElm,
   };
 };
