@@ -7,7 +7,10 @@ import {
 import { BaseDoc, Document } from './Documents';
 
 export interface MessageDoc extends BaseDoc {
-  sender: string;
+  sender: {
+    id: string;
+    name: string
+  }
   formats: {
     png: boolean;
     avif: boolean;
