@@ -1,9 +1,19 @@
 <template>
-  <h1 class="text-2xl font-bold">Index</h1>
+  <NuxtLayout>
+    <template #left>
+      <msg-list-view></msg-list-view>
+    </template>
 
-  <counter></counter>
+    <template #right>
+      <viewfinder></viewfinder>
+    </template>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<script lang="ts">
+export default {
+  layout: false,
+};
+</script>

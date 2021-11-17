@@ -3,8 +3,8 @@ name: Deploy Frontend PROD
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'backend/**'
+    paths:
+      - 'frontend/**'
 
 jobs:
   deploy_frontend:
@@ -22,7 +22,13 @@ jobs:
 
       - run: cd frontend/; npm i
 
-      - run: cd frontend/; npm run deploy:worker
+      - run: cd frontend/; npm run deploy:worker:prod
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          FIREBASE_API_KEY: ${{ secrets.PROD_FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.PROD_FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.PROD_FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET: ${{ secrets.PROD_FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.PROD_FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_APP_ID: ${{ secrets.PROD_FIREBASE_APP_ID }}
