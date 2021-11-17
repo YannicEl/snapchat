@@ -11,7 +11,10 @@
 
 <script setup lang="ts">
 import { initializeApp } from 'firebase/app';
+import splitbee from '@splitbee/web';
 
 const { firebaseConfig } = useRuntimeConfig();
 initializeApp(firebaseConfig);
+
+splitbee.init();
 </script>

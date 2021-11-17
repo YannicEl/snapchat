@@ -19,6 +19,7 @@
     "sass": "^1.43.4"
   },
   "dependencies": {
+    "@splitbee/web": "^0.3.0",
     "@vueuse/core": "^6.9.1",
     "firebase": "^9.4.1"
   }
