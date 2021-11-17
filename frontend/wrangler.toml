@@ -18,5 +18,5 @@ zone_id = ""
 
 [env.prod]
 name = "spitter_prod"
-route = "spitter.app"
+route = "spitter.app/*"
 zone_id = "9dc3b28e54aeaaf30a1329500fd19f3f"
