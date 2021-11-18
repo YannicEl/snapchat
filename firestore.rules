@@ -7,6 +7,10 @@ service cloud.firestore {
       match /messages/{messageId} {
       	allow read, write: if true;
       }
+
+      match /users/{uid} {
+      	allow create: if true;
+      }
     }
   }
 }
