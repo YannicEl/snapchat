@@ -5,6 +5,7 @@ import {
   getDoc as _getDoc,
   getDocs,
   addDoc as _addDoc,
+  setDoc as _setDoc,
   onSnapshot,
   FirestoreDataConverter,
   DocumentReference,
@@ -15,11 +16,23 @@ import {
 import { Document } from '../types/Documents';
 import { Ref } from 'vue';
 
+export type Collections = 'messages' | 'users';
+
 export const useFirestore = <T extends Document>(
-  path: string,
+  path: Collections,
   converter: FirestoreDataConverter<T>
 ) => {
   const collection = _collection(getFirestore(), path).withConverter(converter);
+
+  const set = (body: Partial<T> & Pick<T, 'id'>): Promise<void> => {
+    const { id, ...rest } = body;
+
+    return _setDoc(getDoc(id), {
+      ...rest,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    } as any);
+  };
 
   const add = (body: Partial<Omit<T, 'id'>>): Promise<DocumentReference<T>> => {
     return _addDoc<T>(collection, {
@@ -62,6 +75,7 @@ export const useFirestore = <T extends Document>(
 
   return {
     add,
+    set,
     get,
     getRef,
     list,

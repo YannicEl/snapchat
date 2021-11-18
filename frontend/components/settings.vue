@@ -17,6 +17,7 @@
       <div>Install</div>
       <div>Aggressive Preloading</div>
       <div>Wild Wasterland Mode</div>
+      <button @click="logout">logout</button>
     </div>
 
     <div class="flex flex-col items-center justify-center py-6">
@@ -28,4 +29,8 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getAuth, signOut } from 'firebase/auth';
+
+const logout = async () => signOut(getAuth());
+</script>

@@ -11,10 +11,17 @@
 
 <script setup lang="ts">
 import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import splitbee from '@splitbee/web';
 
 const { firebaseConfig } = useRuntimeConfig();
 initializeApp(firebaseConfig);
 
 splitbee.init();
+
+const router = useRouter();
+
+onAuthStateChanged(getAuth(), (user) => {
+  router.push({ path: user ? '' : '/login' });
+});
 </script>
