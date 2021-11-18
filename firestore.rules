@@ -10,7 +10,7 @@ service cloud.firestore {
 
       match /users/{uid} {
       	allow create: if true;
-        allow update read: if request.auth.uid === uid
+        allow update, read: if request.auth.uid == uid;
       }
     }
   }
