@@ -18,6 +18,7 @@
       <div>Aggressive Preloading</div>
       <div>Wild Wasterland Mode</div>
       <button @click="logout">logout</button>
+      <div>undo depth</div>
     </div>
 
     <div class="flex flex-col items-center justify-center py-6">
