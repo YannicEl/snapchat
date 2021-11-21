@@ -9,6 +9,10 @@
     <div class="absolute bottom-0 z-20 w-full flex justify-center pb-8">
       <button class="w-16 h-16 bg-white rounded-full" @click="capture"></button>
     </div>
+
+    <div
+      class='absolute top-0 z-20 w-full flex justify-end pt-8 pr-8 text-2xl'>
+      <button class='w-12 h-12 bg-white rounded-full' @click='nextMediaDevice()'>🔄</button></div>
   </div>
 </template>
 
@@ -19,11 +23,14 @@ const inEditor = useState<boolean>('inEditor');
 
 const videoElm = ref<HTMLVideoElement | null>(null);
 
-const { isSupported, getVideoStream, setVideoElm } = useCamera();
+const { isSupported, getVideoStream, setVideoElm, setupSupport } = useCamera();
+
+let selectedMediaDevice: number;
 
 onMounted(async () => {
-  if (isSupported() && videoElm.value) {
-    videoElm.value.srcObject = await getVideoStream();
+  if (await isSupported() && videoElm.value) {
+    selectedMediaDevice = 0;
+    videoElm.value.srcObject = await getVideoStream(0);
     setVideoElm(videoElm.value);
   } else {
     console.log('Camera not supported');
@@ -33,6 +40,10 @@ onMounted(async () => {
 const capture = async () => {
   inEditor.value = true;
 };
+
+const nextMediaDevice = () => {
+  selectedMediaDevice = selectedMediaDevice++;
+}
 
 onKeyUp([' ', 'Enter'], capture);
 </script>

@@ -1,19 +1,13 @@
 let videoElm: HTMLVideoElement;
-import { Ref } from 'vue';
-
-export const useCamera = async (videoElm: Ref<HTMLVideoElement | null>) => {
-  /*const mediaDevices = (await navigator.mediaDevices.enumerateDevices()).filter(
-    (e) => e.kind === 'videoinput'
-  );*/
-
-  const mediaDevices: MediaDeviceInfo[] = [];
 
 export const useCamera = () => {
+  let mediaDevices: MediaDeviceInfo[] = [];
   const setVideoElm = (elm: HTMLVideoElement) => {
     videoElm = elm;
   };
 
-  const isSupported = () => {
+  const isSupported = async () => {
+    await setupSupport();
     if (process.server) {
       return false;
     } else {
@@ -32,19 +26,8 @@ export const useCamera = () => {
     return navigator.mediaDevices.getUserMedia(constraints);
   };
 
-  /*const getVideoStream = (): Promise<MediaStream> => {
-    const constraints = {
-      video: {
-        width: { ideal: 4096 },
-        height: { ideal: 2160 },
-        facingMode: 'user',
-      },
-    };
-
-    return navigator.mediaDevices.getUserMedia(constraints);
-  };*/
-
   const setupSupport = async () => {
+    mediaDevices = [];
     mediaDevices.push(
       ...(await navigator.mediaDevices.enumerateDevices()).filter(
         (e) => e.kind === 'videoinput'
@@ -66,7 +49,6 @@ export const useCamera = () => {
     setVideoElm,
     getVideoStream,
     stopVideoStream,
-    setupSupport,
     videoElm,
   };
 };
