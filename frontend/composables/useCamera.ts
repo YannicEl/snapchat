@@ -1,42 +1,51 @@
 let videoElm: HTMLVideoElement;
+let mediaDevices: MediaDeviceInfo[] = [];
+let currentMediaDevice = 0;
 
 export const useCamera = () => {
-  let mediaDevices: MediaDeviceInfo[] = [];
   const setVideoElm = (elm: HTMLVideoElement) => {
     videoElm = elm;
   };
 
-  const isSupported = async () => {
-    await setupSupport();
+  const isSupported = (): boolean => {
     if (process.server) {
       return false;
     } else {
-      // return 'mediaDevices' in navigator;
-      return !!mediaDevices.length;
+      return 'mediaDevices' in navigator;
     }
   };
 
-  const getVideoStream = (index: number): Promise<MediaStream> => {
+  const getMediaDevices = async (): Promise<MediaDeviceInfo[]> => {
+    if (!isSupported) return [];
+
+    const tempDevices = await navigator.mediaDevices.enumerateDevices();
+    mediaDevices = tempDevices.filter((e) => e.kind === 'videoinput');
+    console.log('mediadevices', mediaDevices);
+    return mediaDevices;
+  };
+
+  const getVideoStream = (): Promise<MediaStream> => {
     const constraints = {
       video: {
         width: { ideal: 4096 },
         height: { ideal: 2160 },
-        deviceId: mediaDevices[index].deviceId,
       },
     };
 
     return navigator.mediaDevices.getUserMedia(constraints);
   };
 
-  const setupSupport = async () => {
-    mediaDevices = [];
-    mediaDevices.push(
-      ...(await navigator.mediaDevices.enumerateDevices()).filter(
-        (e) => e.kind === 'videoinput'
-      )
-    );
+  const nextMediaDevice = async (): Promise<void> => {
+    const constraints = {
+      video: {
+        width: { ideal: 4096 },
+        height: { ideal: 2160 },
+        deviceId: mediaDevices[currentMediaDevice++].deviceId,
+      },
+    };
 
-    console.log('mediadevices', mediaDevices);
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    videoElm.srcObject = stream;
   };
 
   const stopVideoStream = () => {
@@ -51,6 +60,8 @@ export const useCamera = () => {
     setVideoElm,
     getVideoStream,
     stopVideoStream,
+    getMediaDevices,
+    nextMediaDevice,
     videoElm,
   };
 };
