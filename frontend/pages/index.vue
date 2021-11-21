@@ -7,7 +7,7 @@
     <template #right>
       <camera v-show="!inEditor"></camera>
 
-      <editor v-show="inEditor"></editor>
+      <editor></editor>
     </template>
   </NuxtLayout>
 </template>

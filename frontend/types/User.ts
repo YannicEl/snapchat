@@ -8,8 +8,9 @@ import { BaseDoc, Document } from './Documents';
 
 export interface Settings {
   aggressivePreloading?: boolean;
-  wildWasterlandMode?: boolean;
+  wildWasterland?: boolean;
   undoLimit?: number;
+  debug?: boolean;
 }
 
 export interface UserDoc extends BaseDoc {
