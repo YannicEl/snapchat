@@ -27,8 +27,10 @@ export const drawCircle = (
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  radius: number
+  radius: number,
+  color: string
 ): void => {
+  ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
   ctx.fill();
