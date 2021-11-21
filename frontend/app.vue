@@ -6,6 +6,10 @@
     rel="stylesheet"
   />
 
+  <client-only>
+    <debug v-show="settings?.debug"></debug>
+  </client-only>
+
   <NuxtPage />
 </template>
 
@@ -24,4 +28,6 @@ const router = useRouter();
 onAuthStateChanged(getAuth(), (user) => {
   router.push({ path: user ? '' : '/login' });
 });
+
+const settings = useSettings();
 </script>
