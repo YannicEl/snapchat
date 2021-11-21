@@ -79,7 +79,7 @@ const paint = (e: MouseEvent | TouchEvent) => {
   if (e instanceof MouseEvent) {
     if (!mousedown.value) return;
     x = e.offsetX;
-    y = e.offsetX;
+    y = e.offsetY;
   } else if (e instanceof TouchEvent) {
     const { left, top } = (
       e.target as HTMLCanvasElement
