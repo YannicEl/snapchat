@@ -4,15 +4,18 @@
       ref="canvasElm"
       class="absolute w-full h-full z-10"
       @mousemove="paint"
+      @mousedown="mousedown = true"
+      @mouseup="mousedown = false"
     ></canvas>
 
     <button class="absolute top-8 left-8 z-20 text-white" @click="deletePic">
       X
     </button>
 
-    <button class="absolute bottom-8 left-8 z-20 text-white" @click="upload">
-      upload
-    </button>
+    <div class="absolute bottom-8 left-8 z-20 text-white flex gap-8">
+      <button @click="upload">upload</button>
+      <button @click="undo">undo</button>
+    </div>
   </div>
 </template>
 
@@ -23,14 +26,22 @@ import { drawLine, drawCircle } from '~/helpers/canvas';
 
 const { uploadImg } = useFirestorage();
 
+const settings = useSettings();
+
 const inEditor = useState<boolean>('inEditor');
 
 const canvasElm = ref<HTMLCanvasElement | null>(null);
+const ctxRef = computed(() => canvasElm.value.getContext('2d'));
+
+const undoQueue: ImageData[] = [];
+
+const mousedown = ref(false);
 
 watch(inEditor, async (res) => {
   if (!res) return;
 
   const { value: canvas } = canvasElm;
+  const { value: ctx } = ctxRef;
   if (!canvas) {
     console.log('Canvas Element not found');
     return;
@@ -40,12 +51,6 @@ watch(inEditor, async (res) => {
   if (!videoElm) {
     console.log('Video Element not found');
     inEditor.value = false;
-    return;
-  }
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) {
-    console.log('Could not create canvas context');
     return;
   }
 
@@ -59,6 +64,8 @@ watch(inEditor, async (res) => {
   ctx.drawImage(videoElm, -xOffset, 0, scaledWidth, canvas.height);
 
   drawGrid(ctx);
+
+  addToQueue();
 });
 
 const deletePic = async () => {
@@ -97,9 +104,11 @@ const drawGrid = (ctx: CanvasRenderingContext2D) => {
 };
 
 const paint = (event: MouseEvent) => {
+  if (!mousedown.value) return;
+
   const { offsetX, offsetY } = event;
 
-  const ctx = canvasElm.value.getContext('2d');
+  const ctx = ctxRef.value;
   ctx.fillStyle = '#FF0000';
   drawCircle(ctx, offsetX, offsetY, 15);
 };
@@ -108,4 +117,37 @@ const upload = async () => {
   const blob = await canvasToBlob(canvasElm.value);
   uploadImg(blob);
 };
+
+const addToQueue = () => {
+  const undoLimit = settings.value?.undoLimit;
+
+  if (undoQueue.length - 1 >= undoLimit) {
+    console.log('Undo Limit reached');
+    undoQueue.shift();
+  }
+
+  const ctx = ctxRef.value;
+  const { width, height } = ctx.canvas;
+  const img = ctx.getImageData(0, 0, width, height);
+  undoQueue.push(img);
+
+  console.log(`Queue is ${undoQueue.length}`);
+};
+
+watch(mousedown, (res) => {
+  if (!res) {
+    addToQueue();
+  }
+});
+
+const undo = () => {
+  if (undoQueue.length <= 1) return;
+
+  undoQueue.pop();
+  const img = undoQueue.at(-1);
+
+  ctxRef.value.putImageData(img, 0, 0);
+};
+
+onKeyUp('z', undo);
 </script>
