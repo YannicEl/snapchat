@@ -8,7 +8,7 @@
       p-2
       text-[#39FF14]
       monospace
-      font-bold
+      font-bold z-10
     "
   >
     <div>{{ fps }} fps</div>

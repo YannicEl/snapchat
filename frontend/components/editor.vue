@@ -4,6 +4,7 @@
       ref="canvasElm"
       class="absolute w-full h-full z-10"
       @mousemove="paint"
+      @touchmove="paint"
       @mousedown="mousedown = true"
       @mouseup="mousedown = false"
     ></canvas>
@@ -29,8 +30,7 @@ const inEditor = useState<boolean>('inEditor');
 
 const canvasElm = ref<HTMLCanvasElement | null>(null);
 
-const { setCanvas, drawImage, drawCircle, addToQueue, undo } =
-  useEditor(canvasElm);
+const { setCanvas, drawImage, drawCircle, addToQueue, undo } = useEditor();
 
 const mousedown = ref(false);
 
@@ -72,11 +72,23 @@ const upload = async () => {
   uploadImg(blob);
 };
 
-const paint = (event: MouseEvent) => {
-  if (!mousedown.value) return;
+const paint = (e: MouseEvent | TouchEvent) => {
+  let x = 0;
+  let y = 0;
 
-  const { offsetX, offsetY } = event;
-  drawCircle(offsetX, offsetY, 15, '#FF0000');
+  if (e instanceof MouseEvent) {
+    if (!mousedown.value) return;
+    x = e.offsetX;
+    y = e.offsetX;
+  } else if (e instanceof TouchEvent) {
+    const { left, top } = (
+      e.target as HTMLCanvasElement
+    )?.getBoundingClientRect();
+    x = e.targetTouches[0].pageX - left;
+    y = e.targetTouches[0].pageY - top;
+  }
+
+  drawCircle(x, y, 15, '#FF0000');
 };
 
 watch(mousedown, (res) => {
