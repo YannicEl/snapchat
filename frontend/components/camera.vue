@@ -24,29 +24,28 @@
 <script setup lang="ts">
 import { onKeyUp } from '@vueuse/core';
 
-const inEditor = useState<boolean>('inEditor');
-
-const videoElm = ref<HTMLVideoElement | null>(null);
-
 const {
   isSupported,
-  getVideoStream,
-  getMediaDevices,
+  loadMediaDevices,
+  conntectVideoStream,
   nextMediaDevice,
   setVideoElm,
 } = useCamera();
 
+const inEditor = useState<boolean>('inEditor');
+const videoElm = ref<HTMLVideoElement | null>(null);
+
 onMounted(async () => {
-  if ((await isSupported()) && videoElm.value) {
-    videoElm.value.srcObject = await getVideoStream();
-    await getMediaDevices();
+  if (isSupported() && videoElm.value) {
     setVideoElm(videoElm.value);
+    await loadMediaDevices();
+    await conntectVideoStream();
   } else {
     console.log('Camera not supported');
   }
 });
 
-const capture = async () => {
+const capture = () => {
   inEditor.value = true;
 };
 

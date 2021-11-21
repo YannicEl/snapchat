@@ -1,4 +1,4 @@
-let videoElm: HTMLVideoElement;
+let videoElm: HTMLVideoElement = null;
 let mediaDevices: MediaDeviceInfo[] = [];
 let currentMediaDevice = 0;
 
@@ -8,47 +8,43 @@ export const useCamera = () => {
   };
 
   const isSupported = (): boolean => {
-    if (process.server) {
-      return false;
-    } else {
-      return 'mediaDevices' in navigator;
-    }
+    return !process.server && 'mediaDevices' in navigator;
   };
 
-  const getMediaDevices = async (): Promise<MediaDeviceInfo[]> => {
-    if (!isSupported) return [];
-
+  const loadMediaDevices = async (): Promise<void> => {
     const tempDevices = await navigator.mediaDevices.enumerateDevices();
     mediaDevices = tempDevices.filter((e) => e.kind === 'videoinput');
-    console.log('mediadevices', mediaDevices);
-    return mediaDevices;
   };
 
-  const getVideoStream = (): Promise<MediaStream> => {
-    const constraints = {
+  const getVideoStream = (deviceId?: string): Promise<MediaStream> => {
+    const constraints: MediaStreamConstraints = {
       video: {
         width: { ideal: 4096 },
         height: { ideal: 2160 },
+        deviceId,
       },
     };
 
     return navigator.mediaDevices.getUserMedia(constraints);
   };
 
-  const nextMediaDevice = async (): Promise<void> => {
-    const constraints = {
-      video: {
-        width: { ideal: 4096 },
-        height: { ideal: 2160 },
-        deviceId: mediaDevices[currentMediaDevice++].deviceId,
-      },
-    };
-
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  const conntectVideoStream = async (deviceId?: string): Promise<void> => {
+    const stream = await getVideoStream(deviceId);
     videoElm.srcObject = stream;
   };
 
-  const stopVideoStream = () => {
+  const nextMediaDevice = async (): Promise<void> => {
+    if (currentMediaDevice < mediaDevices.length - 1) {
+      currentMediaDevice++;
+    } else {
+      currentMediaDevice = 0;
+    }
+
+    const { deviceId } = mediaDevices[currentMediaDevice];
+    await conntectVideoStream(deviceId);
+  };
+
+  const stopVideoStream = (): void => {
     const mediaProvider = videoElm?.srcObject;
     if (!(mediaProvider instanceof MediaStream)) return;
 
@@ -60,7 +56,8 @@ export const useCamera = () => {
     setVideoElm,
     getVideoStream,
     stopVideoStream,
-    getMediaDevices,
+    loadMediaDevices,
+    conntectVideoStream,
     nextMediaDevice,
     videoElm,
   };

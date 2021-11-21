@@ -5,7 +5,7 @@ let ctx: CanvasRenderingContext2D = null;
 const undoQueue: ImageData[] = [];
 
 export const useEditor = () => {
-  const setCanvas = (elm: HTMLCanvasElement) => {
+  const setCanvasElm = (elm: HTMLCanvasElement) => {
     canvas = elm;
     ctx = canvas.getContext('2d');
   };
@@ -52,5 +52,5 @@ export const useEditor = () => {
     console.log(`Undo queue: ${undoQueue.length - 1} / ${undoLimit}`);
   };
 
-  return { setCanvas, drawImage, drawCircle, addToQueue, undo };
+  return { setCanvasElm, drawImage, drawCircle, addToQueue, undo };
 };

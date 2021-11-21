@@ -30,7 +30,7 @@ const inEditor = useState<boolean>('inEditor');
 
 const canvasElm = ref<HTMLCanvasElement | null>(null);
 
-const { setCanvas, drawImage, drawCircle, addToQueue, undo } = useEditor();
+const { setCanvasElm, drawImage, drawCircle, addToQueue, undo } = useEditor();
 
 const mousedown = ref(false);
 
@@ -50,7 +50,7 @@ watch(inEditor, async (res) => {
     return;
   }
 
-  setCanvas(canvas);
+  setCanvasElm(canvas);
 
   const { videoHeight, videoWidth } = videoElm;
   const { width, height } = canvas.getBoundingClientRect();
