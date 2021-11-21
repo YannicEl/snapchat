@@ -19,6 +19,8 @@ export const useCamera = () => {
   const getVideoStream = (index: number): Promise<MediaStream> => {
     const constraints = {
       video: {
+        width: { ideal: 4096 },
+        height: { ideal: 2160 },
         deviceId: mediaDevices[index].deviceId,
       },
     };
