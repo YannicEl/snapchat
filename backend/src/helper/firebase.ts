@@ -3,6 +3,7 @@ import { getStorage as _getStorage } from 'firebase-admin/storage';
 import { getFirestore as _getFirestore } from 'firebase-admin/firestore';
 import { logger } from 'firebase-functions';
 
+// this is not working. Why?
 let init = false;
 
 export const getStorage = () => {

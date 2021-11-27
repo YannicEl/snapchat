@@ -1,4 +1,4 @@
-import { getFirestore } from './firebase';
+import { getFirestore } from './firebase.js';
 
 const firestore = getFirestore();
 
