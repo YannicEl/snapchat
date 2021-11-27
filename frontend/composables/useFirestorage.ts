@@ -1,10 +1,10 @@
 import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 export const useFirestorage = () => {
-  const uploadImg = async (blob: Blob): Promise<void> => {
+  const uploadImg = async (blob: Blob, name: string): Promise<void> => {
     const storage = getStorage();
 
-    const fileRef = ref(storage, `uploads/${Date.now()}.png`);
+    const fileRef = ref(storage, `uploads/${name}.png`);
 
     const uploadTask = uploadBytesResumable(fileRef, blob);
 

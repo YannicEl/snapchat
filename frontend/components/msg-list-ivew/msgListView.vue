@@ -4,7 +4,7 @@
       <msg-list-element
         v-for="message in messages"
         :key="message.id"
-        :sender="message.sender"
+        :sender="message.sender.name"
         :createdAt="message.createdAt"
       ></msg-list-element>
     </ol>

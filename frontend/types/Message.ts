@@ -5,14 +5,14 @@ import {
   UpdateData,
 } from 'firebase/firestore';
 import { Document } from './Documents';
-import { MessageDoc } from 'lib/documents/messageDoc';
+import { MessageDoc, Sender } from 'lib/documents/messageDoc';
 
 export class Message extends Document {
   constructor(
     id: string,
     createdAt: Date,
     updatedAt: Date,
-    public sender: string
+    public sender: Sender
   ) {
     super('messages', id, createdAt, updatedAt);
   }
@@ -38,7 +38,7 @@ export const messageConverter: FirestoreDataConverter<Message> = {
       snapshot.id,
       createdAt.toDate(),
       updatedAt.toDate(),
-      sender.name
+      sender
     );
   },
 };

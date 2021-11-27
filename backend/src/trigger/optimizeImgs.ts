@@ -4,6 +4,9 @@ import { HttpsError } from 'firebase-functions/lib/providers/https';
 import { deleteFile, downloadFile, uploadFile } from '../helper/storage.js';
 import { convertImg } from '../helper/sharp.js';
 import { genericReturn } from '../helper/helpers.js';
+import { getFirestore } from 'src/helper/firebase.js';
+
+const firestore = getFirestore();
 
 let cold = true;
 
@@ -36,6 +39,18 @@ export async function handler(object: ObjectMetadata, context: EventContext) {
         await uploadFile(buffer, `messages/${messageId}.${fileType}`);
       })
     );
+
+    await firestore
+      .collection('messages')
+      .doc(messageId)
+      .update({
+        processed: true,
+        formats: {
+          png: true,
+          avif: true,
+          webp: true,
+        },
+      });
 
     await deleteFile(filePath);
 

@@ -14,7 +14,7 @@
     </button>
 
     <div class="absolute bottom-8 left-8 z-20 text-white flex gap-8">
-      <button @click="upload">upload</button>
+      <button @click="send">send</button>
       <button @click="undo">undo</button>
     </div>
   </div>
@@ -23,14 +23,19 @@
 <script setup lang="ts">
 import { onKeyUp } from '@vueuse/core';
 import { canvasToBlob } from '~~/helpers/canvas';
+import { Message, messageConverter } from '~~/types/Message';
 
+const userStore = useUser();
+
+const { add } = useFirestore<Message>('messages', messageConverter);
 const { uploadImg } = useFirestorage();
 
 const inEditor = useState<boolean>('inEditor');
 
 const canvasElm = ref<HTMLCanvasElement | null>(null);
 
-const { setCanvasElm, drawImage, drawCircle, addToQueue, undo } = useEditor();
+const { setCanvasElm, drawImage, drawCircle, addToQueue, resetQueue, undo } =
+  useEditor();
 
 const mousedown = ref(false);
 
@@ -63,13 +68,21 @@ watch(inEditor, async (res) => {
 });
 
 const deletePic = async () => {
+  resetQueue();
   inEditor.value = false;
 };
 onKeyUp('Escape', deletePic);
 
-const upload = async () => {
+const send = async () => {
+  const { id, username } = userStore.value;
+  const doc = await add({
+    sender: {
+      id,
+      name: username,
+    },
+  });
   const blob = await canvasToBlob(canvasElm.value);
-  uploadImg(blob);
+  uploadImg(blob, doc.id);
 };
 
 const paint = (e: MouseEvent | TouchEvent) => {

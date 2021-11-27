@@ -7,8 +7,8 @@ const defaultSettings: Settings = {
   debug: false,
 };
 
-const settings = useStorage('settings', defaultSettings);
+const settingsStore = useStorage<Settings>('settings', defaultSettings);
 
 export const useSettings = () => {
-  return settings;
+  return settingsStore;
 };

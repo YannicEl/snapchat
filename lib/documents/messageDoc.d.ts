@@ -1,13 +1,16 @@
-import { BaseDoc } from "./baseDoc";
+import { BaseDoc } from './baseDoc';
 
 export interface MessageDoc extends BaseDoc {
-  sender: {
-    id: string;
-    name: string
-  }
-  formats: {
-    png: boolean;
-    avif: boolean;
-    webp: boolean;
-  };
+	sender: Sender;
+	processed: boolean;
+	formats: {
+		png: boolean;
+		avif: boolean;
+		webp: boolean;
+	};
+}
+
+export interface Sender {
+	id: string;
+	name: string;
 }

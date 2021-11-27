@@ -40,6 +40,10 @@ export const useEditor = () => {
     console.log(`Undo queue: ${undoQueue.length - 1} / ${undoLimit}`);
   };
 
+  const resetQueue = () => {
+    undoQueue.splice(0, undoQueue.length);
+  };
+
   const undo = () => {
     if (undoQueue.length <= 1) return;
 
@@ -52,5 +56,5 @@ export const useEditor = () => {
     console.log(`Undo queue: ${undoQueue.length - 1} / ${undoLimit}`);
   };
 
-  return { setCanvasElm, drawImage, drawCircle, addToQueue, undo };
+  return { setCanvasElm, drawImage, drawCircle, addToQueue, resetQueue, undo };
 };
