@@ -6,12 +6,43 @@
     rel="stylesheet"
   />
 
+  <client-only>
+    <debug v-show="settings?.debug"></debug>
+  </client-only>
+
   <NuxtPage />
 </template>
 
 <script setup lang="ts">
 import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import splitbee from '@splitbee/web';
+import { User, userConverter } from './types/User';
+import { useImgSupport } from './composables/useImgSupport';
 
 const { firebaseConfig } = useRuntimeConfig();
 initializeApp(firebaseConfig);
+
+const { get } = useFirestore<User>('users', userConverter);
+
+const userStore = useUser();
+
+splitbee.init();
+
+const router = useRouter();
+
+const { checkSupport } = useImgSupport();
+checkSupport();
+
+onAuthStateChanged(getAuth(), async (authUser) => {
+  if (!authUser) {
+    router.push({ path: '/login' });
+    return;
+  }
+
+  const user = await get(authUser?.uid);
+  userStore.value = user;
+});
+
+const settings = useSettings();
 </script>

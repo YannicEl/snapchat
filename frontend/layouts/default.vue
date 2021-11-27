@@ -5,13 +5,22 @@
         w-full
         max-w-screen-2xl
         bg-white
-        rounded-2xl
+        lg:rounded-2xl
         overflow-hidden
         shadow-xl
         grid grid-cols-7
       "
     >
-      <div class="flex flex-col h-95vh col-span-2 border-r border-gray-200">
+      <div
+        class="
+          hidden
+          lg:flex
+          flex-col
+          h-95vh
+          col-span-2
+          border-r border-gray-200
+        "
+      >
         <logo-header></logo-header>
 
         <div
@@ -33,7 +42,7 @@
         </div>
       </div>
 
-      <div class="col-span-5 h-95vh">
+      <div class="col-span-7 lg:col-span-5 h:h-screen lg:h-95vh z-0">
         <slot name="right" />
       </div>
     </div>

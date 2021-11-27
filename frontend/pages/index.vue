@@ -5,15 +5,19 @@
     </template>
 
     <template #right>
-      <viewfinder></viewfinder>
+      <camera v-show="!inEditor"></camera>
+
+      <editor></editor>
     </template>
   </NuxtLayout>
 </template>
-
-<script setup lang="ts"></script>
 
 <script lang="ts">
 export default {
   layout: false,
 };
+</script>
+
+<script setup lang="ts">
+const inEditor = useState('inEditor', () => false);
 </script>

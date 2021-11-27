@@ -4,18 +4,8 @@ import {
   SnapshotOptions,
   UpdateData,
 } from 'firebase/firestore';
-import { BaseDoc, Document } from './Documents';
-
-export interface Settings {
-  aggressivePreloading?: boolean;
-  wildWasterlandMode?: boolean;
-  undoLimit?: number;
-}
-
-export interface UserDoc extends BaseDoc {
-  username: string;
-  settings: Settings;
-}
+import { Document } from './Documents';
+import { UserDoc } from 'lib/documents/userDoc';
 
 export class User extends Document {
   constructor(

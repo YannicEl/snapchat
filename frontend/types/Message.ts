@@ -4,26 +4,17 @@ import {
   SnapshotOptions,
   UpdateData,
 } from 'firebase/firestore';
-import { BaseDoc, Document } from './Documents';
-
-export interface MessageDoc extends BaseDoc {
-  sender: {
-    id: string;
-    name: string
-  }
-  formats: {
-    png: boolean;
-    avif: boolean;
-    webp: boolean;
-  };
-}
+import { Document } from './Documents';
+import { Formats, MessageDoc, Sender } from 'lib/documents/messageDoc';
 
 export class Message extends Document {
   constructor(
     id: string,
     createdAt: Date,
     updatedAt: Date,
-    public sender: string
+    public sender: Sender,
+    public formats: Formats,
+    public processed: boolean
   ) {
     super('messages', id, createdAt, updatedAt);
   }
@@ -44,12 +35,15 @@ export const messageConverter: FirestoreDataConverter<Message> = {
   fromFirestore: (snapshot: QueryDocumentSnapshot<MessageDoc>) => {
     const options: SnapshotOptions = { serverTimestamps: 'estimate' };
 
-    const { sender, createdAt, updatedAt } = snapshot.data(options);
+    const { sender, createdAt, updatedAt, formats, processed } =
+      snapshot.data(options);
     return new Message(
       snapshot.id,
       createdAt.toDate(),
       updatedAt.toDate(),
-      sender
+      sender,
+      formats,
+      processed
     );
   },
 };

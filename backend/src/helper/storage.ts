@@ -15,6 +15,17 @@ export const downloadFile = async (filePath: string): Promise<Buffer> => {
   }
 };
 
+export const deleteFile = async (filePath: string): Promise<void> => {
+  try {
+    await bucket.file(filePath).delete();
+    logger.log(`deleted file: ${filePath}`);
+    return;
+  } catch (err) {
+    logger.error(err);
+    throw new Error(`error deleting file: ${filePath}`);
+  }
+};
+
 export const uploadFile = async (
   buffer: Buffer,
   filePath: string
@@ -24,4 +35,5 @@ export const uploadFile = async (
   await file.setMetadata({
     contentDisposition: `attachment; filename=${filePath.split('/').at(-1)}`,
   });
+  logger.log(`uploaded file: ${filePath}`);
 };

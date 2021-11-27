@@ -1,7 +1,11 @@
 import { defineNuxtConfig } from 'nuxt3';
 
 export default defineNuxtConfig({
-  buildModules: ['nuxt-windicss', '@vueuse/core/nuxt', '@nuxtjs/google-fonts'],
+  buildModules: [
+    'nuxt-windicss',
+    '@vueuse/core/nuxt',
+    // '@nuxtjs/google-fonts'
+  ],
 
   publicRuntimeConfig: {
     firebaseConfig: {
@@ -14,14 +18,14 @@ export default defineNuxtConfig({
     },
   },
 
-  googleFonts: {
-    // download: true,
-    // base64: true,
-    display: 'swap',
-    families: {
-      Montserrat: true,
-    },
-  },
+  // googleFonts: {
+  //   // download: true,
+  //   // base64: true,
+  //   display: 'swap',
+  //   families: {
+  //     Montserrat: true,
+  //   },
+  // },
 
   css: ['~/main.scss'],
 });

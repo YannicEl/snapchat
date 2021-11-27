@@ -1,22 +1,40 @@
 <template>
   <div
-    class="
-      absolute
-      left-0
-      bg-gray-100
-      w-full
-      h-full
-      flex flex-col
-      z-10
-      overflow-auto
-    "
+    class="absolute left-0 bg-gray-100 w-full h-full flex flex-col z-10 overflow-auto"
   >
-    <div class="flex-1">
-      <h1>Settings</h1>
-      <div>turn of notifiactions</div>
-      <div>Install</div>
-      <div>Aggressive Preloading</div>
-      <div>Wild Wasterland Mode</div>
+    <div class="flex-1 flex flex-col gap-3">
+      <h1 class="text-2xl font-bold">Settings</h1>
+      <!-- <div>turn of notifiactions</div> -->
+      <!-- <div>Install</div> -->
+
+      <label for="aggressivePreloading">
+        <span class="select-none">Aggressive Preloading</span>
+        <input
+          type="checkbox"
+          id="aggressivePreloading"
+          v-model="settingsStore.aggressivePreloading"
+        />
+      </label>
+
+      <label for="wildWasterland">
+        <span class="select-none">Wild Wasterland Mode</span>
+        <input
+          type="checkbox"
+          id="wildWasterland"
+          v-model="settingsStore.wildWasteland"
+        />
+      </label>
+
+      <label for="debug">
+        <span class="select-none">Debug Mode</span>
+        <input type="checkbox" id="debug" v-model="settingsStore.debug" />
+      </label>
+
+      <label for="undoLimit">
+        <span class="select-none">Undo Limit</span>
+        <input type="number" id="undoLimit" v-model="settingsStore.undoLimit" />
+      </label>
+      <button @click="logout">logout</button>
     </div>
 
     <div class="flex flex-col items-center justify-center py-6">
@@ -28,4 +46,10 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getAuth, signOut } from 'firebase/auth';
+
+const settingsStore = useSettings();
+
+const logout = async () => signOut(getAuth());
+</script>

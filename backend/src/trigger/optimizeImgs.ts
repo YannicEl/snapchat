@@ -1,12 +1,18 @@
 import { ObjectMetadata } from 'firebase-functions/v1/storage';
 import { EventContext, logger } from 'firebase-functions';
 import { HttpsError } from 'firebase-functions/lib/providers/https';
-import { downloadFile, uploadFile } from '../helper/storage.js';
+import { deleteFile, downloadFile, uploadFile } from '../helper/storage.js';
 import { convertImg } from '../helper/sharp.js';
 import { genericReturn } from '../helper/helpers.js';
+import { markAsProcessed } from '../helper/message.js';
+
+let cold = true;
 
 export async function handler(object: ObjectMetadata, context: EventContext) {
   logger.log(object);
+
+  logger.info('cold:', cold);
+  cold = false;
 
   if (!object?.contentType?.startsWith('image/')) {
     logger.error('This is not an image.');
@@ -29,8 +35,11 @@ export async function handler(object: ObjectMetadata, context: EventContext) {
       ['jpg', 'webp', 'avif'].map(async (fileType) => {
         const buffer = await convertImg(originalBuffer, fileType);
         await uploadFile(buffer, `messages/${messageId}.${fileType}`);
+        await markAsProcessed(messageId, fileType);
       })
     );
+
+    await deleteFile(filePath);
 
     return genericReturn();
   } catch (err) {
