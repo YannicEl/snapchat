@@ -4,7 +4,7 @@ import { HttpsError } from 'firebase-functions/lib/providers/https';
 import { deleteFile, downloadFile, uploadFile } from '../helper/storage.js';
 import { convertImg } from '../helper/sharp.js';
 import { genericReturn } from '../helper/helpers.js';
-import { getFirestore } from 'src/helper/firebase.js';
+import { getFirestore } from '../helper/firebase.js';
 
 const firestore = getFirestore();
 
