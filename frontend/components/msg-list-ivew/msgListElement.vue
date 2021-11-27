@@ -1,20 +1,11 @@
 <template>
   <li
-    class="
-      flex
-      justify-between
-      items-center
-      px-8
-      py-5
-      border-b border-cool-gray-200
-      hover:bg-gray-200
-      transition-all
-      duration-75
-      cursor-pointer
-    "
+    class="flex justify-between items-center px-8 py-5 border-b border-cool-gray-200 hover:bg-gray-200 transition-all duration-75 cursor-pointer"
   >
     <div class="flex items-center">
-      <div class="w-5 h-5 rounded-full bg-blue-600 mr-4"></div>
+      <div v-if="!loading" class="w-5 h-5 rounded-full bg-blue-600 mr-4"></div>
+      <spinner class="mr-4" v-else :size="5" :border="'border-3px'"></spinner>
+
       <span class="text-gray-900 font-bold">{{ sender }}</span>
     </div>
 
@@ -25,10 +16,11 @@
 <script setup lang="ts">
 const props = defineProps<{
   sender: string;
+  loading: boolean;
   createdAt: Date;
 }>();
 
-const { sender, createdAt } = toRefs(props);
+const { sender, loading, createdAt } = toRefs(props);
 
 const timeAgo = computed(() => {
   const date = createdAt.value;

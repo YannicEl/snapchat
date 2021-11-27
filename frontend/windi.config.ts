@@ -9,4 +9,10 @@ export default defineConfig({
 			sans: ['Montserrat', 'sans-serif'],
 		},
 	},
+  safelist: [
+    "w-10",
+    "w-5",
+    "h-10",
+    "h-5",
+  ]
 });

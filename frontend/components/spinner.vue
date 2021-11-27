@@ -1,10 +1,25 @@
 <template>
-  <div class="spinner"></div>
+  <div
+    class="spinner border-2"
+    :class="['w-' + size, 'h-' + size, border]"
+  ></div>
 </template>
+
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    size?: number;
+    border?: string;
+  }>(),
+  { size: 10, border: 'border-5' }
+);
+
+const { size } = toRefs(props);
+</script>
 
 <style lang="scss">
 .spinner {
-  @apply border-gray-300 border-t-blue-500 border-5 rounded-full w-10 h-10;
+  @apply border-gray-300 border-t-blue-500 rounded-full;
 
   animation: spin 1.2s linear infinite;
 }

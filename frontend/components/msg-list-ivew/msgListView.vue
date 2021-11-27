@@ -6,6 +6,7 @@
         :key="message.id"
         :sender="message.sender.name"
         :createdAt="message.createdAt"
+        :loading="!message.processed"
       ></msg-list-element>
     </ol>
 

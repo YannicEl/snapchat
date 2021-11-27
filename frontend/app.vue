@@ -36,8 +36,6 @@ onAuthStateChanged(getAuth(), async (authUser) => {
     return;
   }
 
-  console.log(userStore);
-
   const user = await get(authUser?.uid);
   userStore.value = user;
 });
