@@ -4,7 +4,7 @@ import { HttpsError } from 'firebase-functions/lib/providers/https';
 import { deleteFile, downloadFile, uploadFile } from '../helper/storage.js';
 import { convertImg } from '../helper/sharp.js';
 import { genericReturn } from '../helper/helpers.js';
-import { markAsProcessed } from 'src/helper/message.js';
+import { markAsProcessed } from '../helper/message.js';
 
 let cold = true;
 
