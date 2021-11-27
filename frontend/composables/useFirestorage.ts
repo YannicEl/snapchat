@@ -1,10 +1,15 @@
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getBlob,
+} from 'firebase/storage';
+
+const { supported } = useImgSupport();
 
 export const useFirestorage = () => {
   const uploadImg = async (blob: Blob, name: string): Promise<void> => {
-    const storage = getStorage();
-
-    const fileRef = ref(storage, `uploads/${name}.png`);
+    const fileRef = ref(getStorage(), `uploads/${name}.png`);
 
     const uploadTask = uploadBytesResumable(fileRef, blob);
 
@@ -25,5 +30,12 @@ export const useFirestorage = () => {
     });
   };
 
-  return { uploadImg };
+  const getFile = async (messageId: string): Promise<Blob> => {
+    const { avif, webp } = supported.value;
+    const fileType = avif ? 'avif' : webp ? 'webp' : 'jpg';
+    const fileRef = ref(getStorage(), `messages/${messageId}.${fileType}`);
+    return getBlob(fileRef);
+  };
+
+  return { uploadImg, getFile };
 };

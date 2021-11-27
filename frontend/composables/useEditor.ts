@@ -26,7 +26,7 @@ export const useEditor = () => {
   };
 
   const addToQueue = () => {
-    const { undoLimit } = useSettings().value || {};
+    const { undoLimit } = useSettings().value;
 
     if (undoQueue.length - 1 >= undoLimit) {
       console.log('Undo Limit reached');

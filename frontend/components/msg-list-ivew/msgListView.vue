@@ -4,6 +4,7 @@
       <msg-list-element
         v-for="message in messages"
         :key="message.id"
+        :id="message.id"
         :sender="message.sender.name"
         :createdAt="message.createdAt"
         :loading="!message.processed"

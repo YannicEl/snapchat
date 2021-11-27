@@ -35,4 +35,5 @@ export const uploadFile = async (
   await file.setMetadata({
     contentDisposition: `attachment; filename=${filePath.split('/').at(-1)}`,
   });
+  logger.log(`uploaded file: ${filePath}`);
 };

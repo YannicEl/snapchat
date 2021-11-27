@@ -12,7 +12,7 @@ export interface Sender {
 }
 
 export interface Formats {
-	png: boolean;
+	jpg: boolean;
 	avif: boolean;
 	webp: boolean;
 }

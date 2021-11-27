@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="spinner border-2"
-    :class="['w-' + size, 'h-' + size, border]"
-  ></div>
+  <div class="spinner" :class="['w-' + size, 'h-' + size, border]"></div>
 </template>
 
 <script setup lang="ts">

@@ -18,6 +18,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import splitbee from '@splitbee/web';
 import { User, userConverter } from './types/User';
+import { useImgSupport } from './composables/useImgSupport';
 
 const { firebaseConfig } = useRuntimeConfig();
 initializeApp(firebaseConfig);
@@ -29,6 +30,9 @@ const userStore = useUser();
 splitbee.init();
 
 const router = useRouter();
+
+const { checkSupport } = useImgSupport();
+checkSupport();
 
 onAuthStateChanged(getAuth(), async (authUser) => {
   if (!authUser) {
