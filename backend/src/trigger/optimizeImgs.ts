@@ -5,8 +5,13 @@ import { deleteFile, downloadFile, uploadFile } from '../helper/storage.js';
 import { convertImg } from '../helper/sharp.js';
 import { genericReturn } from '../helper/helpers.js';
 
+let cold = true;
+
 export async function handler(object: ObjectMetadata, context: EventContext) {
   logger.log(object);
+
+  logger.info('cold:', cold);
+  cold = false;
 
   if (!object?.contentType?.startsWith('image/')) {
     logger.error('This is not an image.');

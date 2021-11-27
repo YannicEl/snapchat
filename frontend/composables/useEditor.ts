@@ -1,4 +1,4 @@
-import { drawCircle as _drawCircle } from '~/helpers/canvas';
+import { drawCircle as _drawCircle } from '~~/helpers/canvas';
 
 let canvas: HTMLCanvasElement = null;
 let ctx: CanvasRenderingContext2D = null;

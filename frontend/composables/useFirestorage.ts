@@ -1,9 +1,4 @@
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from 'firebase/storage';
+import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 export const useFirestorage = () => {
   const uploadImg = async (blob: Blob): Promise<void> => {

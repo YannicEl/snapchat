@@ -1,16 +1,7 @@
 <template>
   <div class="w-screen h-screen grid place-items-center">
     <div
-      class="
-        w-full
-        max-w-screen-2xl
-        bg-white
-        rounded-2xl
-        shadow-xl
-        h-95vh
-        flex flex-col
-        items-center
-      "
+      class="w-full max-w-screen-2xl bg-white rounded-2xl shadow-xl h-95vh flex flex-col items-center"
     >
       <logo class="mb-10 mt-20rem" size="text-5xl"></logo>
 
@@ -32,16 +23,17 @@
 </template>
 
 <script lang="ts">
-import { User, userConverter } from '~~/types/User';
-
 export default {
   layout: false,
 };
 </script>
 
 <script setup lang="ts">
-const { set } = useFirestore<User>('users', userConverter);
 import { getAuth, signInAnonymously } from 'firebase/auth';
+import { User, userConverter } from '~~/types/User';
+
+const { set } = useFirestore<User>('users', userConverter);
+
 const router = useRouter();
 
 const username = ref<string>();

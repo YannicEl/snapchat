@@ -4,19 +4,8 @@ import {
   SnapshotOptions,
   UpdateData,
 } from 'firebase/firestore';
-import { BaseDoc, Document } from './Documents';
-
-export interface MessageDoc extends BaseDoc {
-  sender: {
-    id: string;
-    name: string
-  }
-  formats: {
-    png: boolean;
-    avif: boolean;
-    webp: boolean;
-  };
-}
+import { Document } from './Documents';
+import { MessageDoc } from 'lib/documents/messageDoc';
 
 export class Message extends Document {
   constructor(
@@ -49,7 +38,7 @@ export const messageConverter: FirestoreDataConverter<Message> = {
       snapshot.id,
       createdAt.toDate(),
       updatedAt.toDate(),
-      sender
+      sender.name
     );
   },
 };

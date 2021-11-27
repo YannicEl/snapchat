@@ -5,7 +5,6 @@ import {
   doc as _doc,
   getFirestore,
   UpdateData,
-  Timestamp,
   serverTimestamp,
 } from 'firebase/firestore';
 
@@ -30,7 +29,3 @@ export abstract class Document {
   }
 }
 
-export interface BaseDoc {
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-}

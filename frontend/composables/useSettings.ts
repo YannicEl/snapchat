@@ -1,8 +1,8 @@
-import { Settings } from '~~/types/User';
+import { Settings } from 'lib/documents/userDoc';
 
 const defaultSettings: Settings = {
   aggressivePreloading: false,
-  wildWasterlandMode: false,
+  wildWasteland: false,
   undoLimit: 5,
   debug: false,
 };

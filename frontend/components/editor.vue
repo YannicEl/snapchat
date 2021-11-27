@@ -21,8 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { canvasToBlob } from '~~/helpers/canvas';
 import { onKeyUp } from '@vueuse/core';
+import { canvasToBlob } from '~~/helpers/canvas';
 
 const { uploadImg } = useFirestorage();
 
