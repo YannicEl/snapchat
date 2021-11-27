@@ -15,12 +15,12 @@
     "miniflare": "^1.4.1",
     "nuxt-windicss": "^2.0.12",
     "nuxt3": "^3.0.0-27288761.d3fb512",
-    "prettier": "^2.4.1",
-    "sass": "^1.43.4"
+    "prettier": "^2.5.0",
+    "sass": "^1.43.5"
   },
   "dependencies": {
     "@splitbee/web": "^0.3.0",
-    "@vueuse/core": "^6.9.2",
+    "@vueuse/core": "^7.1.2",
     "firebase": "^9.5.0"
   }
 }
